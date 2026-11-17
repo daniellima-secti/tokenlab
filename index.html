@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta
+    http-equiv="Content-Security-Policy"
+    content="default-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'self';"
+  >
+  <meta
+    name="description"
+    content="TokenLab: laboratório visual interativo de Design Systems (10 estilos + Color Picker), Motion Physics, Bibliotecas @latest e Segurança OWASP AST10."
+  >
+  <title>TokenLab // UI, Motion, @latest Stack &amp; AST10 Lab</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&family=Geist+Mono:wght@400;500;600&family=Geist:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,400..600;1,6..72,400&family=Outfit:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+    rel="stylesheet"
+  >
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Pular para o conteúdo principal</a>
+
+  <!-- Barra fixa discreta no topo quando Live Theme Switcher está ativo no <body> -->
+  <div id="live-theme-bar" class="live-theme-bar" role="region" aria-label="Controle de tema ativo na página" hidden>
+    <div class="live-theme-bar__inner">
+      <div class="live-theme-bar__info">
+        <span class="live-theme-bar__swatch" aria-hidden="true"></span>
+        <span>Live Theme ativo: <strong id="live-theme-label">—</strong></span>
+        <span class="live-theme-bar__hint">Tecla <kbd>Esc</kbd> restaura</span>
+      </div>
+      <button type="button" id="restore-default-theme-btn" class="btn btn--primary btn--sm">
+        Restaurar Visual Padrão
+      </button>
+    </div>
+  </div>
+
+  <!-- Cabeçalho Studio -->
+  <header class="studio-header">
+    <div class="container">
+      <div class="studio-header__top">
+        <div class="brand">
+          <span class="brand__mark" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <rect x="2" y="2" width="7" height="7" rx="1.5" stroke="currentColor" stroke-width="1.6"/>
+              <rect x="11" y="2" width="7" height="7" rx="3.5" stroke="currentColor" stroke-width="1.6"/>
+              <rect x="2" y="11" width="7" height="7" rx="1.5" fill="currentColor"/>
+              <path d="M11 14.5H18M14.5 11V18" stroke="currentColor" stroke-width="1.6" stroke-linecap="square"/>
+            </svg>
+          </span>
+          <div>
+            <h1 class="brand__title">TokenLab // Design Systems, Motion &amp; AST10 Lab</h1>
+            <p class="brand__tagline">
+              Explore 10 sistemas visuais com Color Picker HSL/<code>color-mix()</code>, teste animações interativas, selecione libs <code>@latest</code> e exporte Prompts ou <code>SKILL.md</code> com OWASP AST10.
+            </p>
+          </div>
+        </div>
+
+        <div class="header-controls">
+          <div class="studio-meta" aria-label="Resumo do laboratório">
+            <span class="meta-pill">10 Estilos</span>
+            <span class="meta-pill">4 Motions</span>
+            <span class="meta-pill">Stack @latest</span>
+            <span class="meta-pill">AST10</span>
+          </div>
+
+          <button
+            type="button"
+            id="global-theme-toggle"
+            class="theme-switch-btn"
+            role="switch"
+            aria-checked="false"
+            aria-label="Alternar tema global entre Light Mode e Dark Mode"
+          >
+            <span class="theme-switch-btn__icon" aria-hidden="true">☀</span>
+            <span id="global-theme-text">Light Mode</span>
+            <span class="theme-switch-btn__track" aria-hidden="true">
+              <span class="theme-switch-btn__thumb"></span>
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content" class="container studio-main">
+    <noscript>
+      <div class="noscript-banner">
+        O TokenLab requer JavaScript habilitado para gerar paletas HSL, executar demos interativas de motion e exportar Prompts / SKILL.md no navegador.
+      </div>
+    </noscript>
+
+    <!-- Módulo 1: Catálogo com 10 Estilos Visuais + Gerador de Design System -->
+    <section id="styles-section" class="lab-section" aria-labelledby="styles-heading">
+      <div class="section-head section-head--split">
+        <div>
+          <span class="section-eyebrow">MÓDULO 01 / CATÁLOGO &amp; STYLE MIXER</span>
+          <h2 id="styles-heading" class="section-title">10 Sistemas Visuais com Color Picker Dinâmico</h2>
+          <p class="section-note">
+            Ajuste a cor primária para recalcular toda a escala HSL/<code>color-mix()</code> ao vivo, combine até 2 estilos (Estrutura + Cores) ou aplique na página inteira com <strong>Testar na Página</strong>.
+          </p>
+        </div>
+        <div class="section-actions">
+          <span id="mixer-count-badge" class="meta-pill">0/2 no Mixer</span>
+        </div>
+      </div>
+
+      <div class="filter-toolbar">
+        <div id="category-filters" class="filter-group" role="group" aria-label="Filtrar estilos por categoria"></div>
+        <span id="filter-status" class="toolbar-status" aria-live="polite"></span>
+      </div>
+
+      <div id="style-grid" class="style-grid"></div>
+    </section>
+
+    <!-- Parte 1: Typography & Font Pairing Lab -->
+    <section id="typography-section" class="lab-section" aria-labelledby="typography-heading">
+      <div class="section-head section-head--split">
+        <div>
+          <span class="section-eyebrow">TYPOGRAPHY &amp; FONT PAIRING LAB</span>
+          <h2 id="typography-heading" class="section-title">Pareamento Tipográfico, Refinamentos &amp; Live Type Tester</h2>
+          <p class="section-note">
+            Escolha um preset curado ou misture fontes livremente via Google Fonts. As fontes escolhidas sincronizam com os tokens dos cartões, o Live Theme Switcher e a exportação.
+          </p>
+        </div>
+        <button type="button" id="copy-google-fonts-btn" class="btn btn--secondary">
+          Copiar &lt;link&gt; Google Fonts
+        </button>
+      </div>
+
+      <div class="typography-panel">
+        <div class="typography-presets-wrap">
+          <span class="sub-label">6 Pares Tipográficos Curados</span>
+          <div id="font-presets-grid" class="font-presets-grid" role="group" aria-label="Presets tipográficos"></div>
+        </div>
+
+        <div class="typography-controls-row">
+          <div class="font-selects-grid">
+            <label class="font-select-field">
+              <span class="sub-label">Heading / Display Font</span>
+              <select id="font-display-select" class="font-select"></select>
+            </label>
+            <label class="font-select-field">
+              <span class="sub-label">Body / UI Font</span>
+              <select id="font-body-select" class="font-select"></select>
+            </label>
+            <label class="font-select-field">
+              <span class="sub-label">Monospace / Numerals Font</span>
+              <select id="font-mono-select" class="font-select"></select>
+            </label>
+          </div>
+
+          <div class="font-refinements" role="group" aria-label="Refinamentos tipográficos">
+            <label class="refinement-check">
+              <input type="checkbox" id="tight-tracking-checkbox" class="refinement-checkbox">
+              <span>Tight Display Tracking (<code>-0.035em</code>)</span>
+            </label>
+            <label class="refinement-check">
+              <input type="checkbox" id="tabular-nums-checkbox" class="refinement-checkbox" checked>
+              <span>Tabular Numerals (<code>tabular-nums</code>)</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="type-specimen-box">
+          <div class="type-specimen-box__bar">
+            <label class="type-tester-input-wrap">
+              <span class="sub-label">Live Type Tester (título do projeto):</span>
+              <input
+                type="text"
+                id="type-tester-input"
+                class="type-tester-input"
+                value="TokenLab Design Architecture"
+                maxlength="80"
+                placeholder="Digite o título do seu projeto..."
+              >
+            </label>
+            <span id="active-fonts-badge" class="meta-pill">Geist + Geist + Geist Mono</span>
+          </div>
+
+          <div id="type-specimen-stage" class="type-specimen-stage">
+            <h3 id="type-preview-display" class="type-preview-display">TokenLab Design Architecture</h3>
+            <p id="type-preview-body" class="type-preview-body">
+              Arquitetura visual focada em clareza estrutural, ritmo vertical consistente e legibilidade imediata em interfaces técnicas, painéis analíticos e ferramentas de desenvolvimento.
+            </p>
+            <div id="type-preview-metrics" class="type-preview-metrics">$1,840.00 · +14.2% · v2.4.0</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Módulo 2: Motion & Physics Lab -->
+    <section id="motion-section" class="lab-section" aria-labelledby="motion-heading">
+      <div class="section-head">
+        <span class="section-eyebrow">MÓDULO 02 / MOTION &amp; PHYSICS LAB</span>
+        <h2 id="motion-heading" class="section-title">Demos Interativas de Física &amp; Animação</h2>
+        <p class="section-note">
+          Interaja diretamente com cada demo (cursor magnético, inclinação 3D com reflexo especular, cascata em rolagem ou troca instantânea) e selecione a técnica para o prompt final.
+        </p>
+      </div>
+
+      <div id="motion-grid" class="motion-grid" role="radiogroup" aria-labelledby="motion-heading"></div>
+    </section>
+
+    <!-- Módulo 3: Bibliotecas Front-End Modernas (Sempre @latest) -->
+    <section id="libs-section" class="lab-section" aria-labelledby="libs-heading">
+      <div class="section-head section-head--split">
+        <div>
+          <span class="section-eyebrow">MÓDULO 03 / STACK FRONT-END MODERNA (SEMPRE @latest)</span>
+          <h2 id="libs-heading" class="section-title">Bibliotecas &amp; Primitivos Recomendados</h2>
+          <p class="section-note">
+            Marque as bibliotecas desejadas. Toda exportação injeta a política obrigatória <code>@latest</code> para evitar APIs legadas.
+          </p>
+        </div>
+        <span id="libs-counter" class="meta-pill">0 selecionadas</span>
+      </div>
+
+      <div id="libs-grid" class="libs-grid"></div>
+    </section>
+
+    <!-- Módulo 4: Ecossistema de Skills (Comunidade + OWASP AST10) -->
+    <section id="skills-section" class="lab-section" aria-labelledby="skills-heading">
+      <div class="section-head">
+        <span class="section-eyebrow">MÓDULO 04 / ECOSSISTEMA DE SKILLS &amp; OWASP AST10</span>
+        <h2 id="skills-heading" class="section-title">Skills da Comunidade &amp; Segurança para Agentes (AST10)</h2>
+        <p class="section-note">
+          Copie referências reais usadas no Claude Code, Cursor e <code>agy</code> e configure os guardrails OWASP AST10 e WCAG 2.2 AA para o <code>SKILL.md</code>.
+        </p>
+      </div>
+
+      <div class="ecosystem-wrap">
+        <div class="community-block">
+          <h3 class="sub-block-title">Skills Reais da Comunidade &amp; Ferramentas</h3>
+          <div id="community-skills-grid" class="community-skills-grid"></div>
+        </div>
+
+        <div class="security-panel">
+          <div class="security-panel__head">
+            <div>
+              <h3 class="sub-block-title">Checkboxes OWASP Agentic Skills Top 10 (AST10) &amp; A11y</h3>
+              <p class="section-note">
+                Diretrizes obrigatórias injetadas no Prompt e no arquivo <code>SKILL.md</code>.
+                <span id="security-counter" class="skills-counter">4/4 diretrizes ativas</span>
+              </p>
+            </div>
+            <div class="security-panel__actions">
+              <button type="button" id="toggle-preview-btn" class="btn btn--secondary" aria-expanded="false" aria-controls="export-preview-drawer">
+                Visualizar SKILL.md
+              </button>
+            </div>
+          </div>
+
+          <div id="security-grid" class="security-grid"></div>
+
+          <div id="export-preview-drawer" class="export-preview-drawer" hidden>
+            <div class="export-preview-drawer__bar">
+              <span class="mono-label">SKILL.md (Gerado ao vivo com política @latest + AST10)</span>
+              <button type="button" id="copy-preview-skill-btn" class="btn btn--secondary btn--sm">
+                Copiar Markdown
+              </button>
+            </div>
+            <pre id="export-preview-code" class="code-block"></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="studio-footer">
+    <div class="container studio-footer__inner">
+      <p>
+        <strong>TokenLab</strong> — Aplicação estática ES6+ zero-build para GitHub Pages. Construção segura com <code>document.createElement</code> + <code>textContent</code>, validação de storage e CSP restrita.
+      </p>
+      <p class="studio-footer__links">
+        <a href="https://owasp.org/www-project-agentic-skills-top-10/" target="_blank" rel="noopener noreferrer">OWASP AST10</a>
+        <span aria-hidden="true">·</span>
+        <a href="https://www.w3.org/TR/WCAG22/" target="_blank" rel="noopener noreferrer">WCAG 2.2 AA</a>
+      </p>
+    </div>
+  </footer>
+
+  <!-- Dock Flutuante Retrátil ("Export Studio") -->
+  <aside id="export-dock" class="export-dock" aria-label="Export Studio">
+    <div class="export-dock__header">
+      <div class="export-dock__title-row">
+        <span class="dock-badge">EXPORT STUDIO</span>
+        <span id="dock-compact-summary" class="dock-compact-summary"></span>
+      </div>
+
+      <div class="export-dock__header-actions">
+        <button type="button" id="dock-quick-copy-btn" class="btn btn--primary btn--sm" hidden>
+          Copiar Prompt
+        </button>
+        <button
+          type="button"
+          id="dock-toggle-btn"
+          class="btn btn--secondary btn--sm dock-toggle-btn"
+          aria-expanded="true"
+          aria-controls="export-dock-body"
+        >
+          Minimizar ▾
+        </button>
+      </div>
+    </div>
+
+    <div id="export-dock-body" class="export-dock__body">
+      <div class="export-dock__stack-row">
+        <span class="stack-row-label">STYLING STACK:</span>
+        <div id="styling-stack-group" class="segmented-control" role="radiogroup" aria-label="Selecionar Styling Stack do projeto">
+          <button type="button" class="segmented-btn" role="radio" aria-checked="true" data-stack="hybrid">
+            Híbrido (CSS Vars + Tailwind)
+          </button>
+          <button type="button" class="segmented-btn" role="radio" aria-checked="false" data-stack="tailwind">
+            Tailwind CSS (@latest)
+          </button>
+          <button type="button" class="segmented-btn" role="radio" aria-checked="false" data-stack="vanilla">
+            CSS Puro (Vanilla)
+          </button>
+        </div>
+      </div>
+
+      <div class="export-dock__bottom-row">
+        <div id="dock-pillars" class="dock-pillars"></div>
+
+        <div class="export-dock__actions">
+          <button type="button" id="dock-test-combo-btn" class="btn btn--secondary btn--sm" hidden>
+            Testar Combinação na Página
+          </button>
+          <button type="button" id="dock-clear-combo-btn" class="btn btn--ghost btn--sm" hidden>
+            Limpar Mixer
+          </button>
+          <button type="button" id="dock-copy-prompt-btn" class="btn btn--primary">
+            Copiar Prompt Completo
+          </button>
+          <button type="button" id="dock-download-skill-btn" class="btn btn--secondary">
+            Baixar SKILL.md
+          </button>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Toast Discreto -->
+  <div id="toast-region" class="toast-region" role="status" aria-live="polite" aria-atomic="true"></div>
+</body>
+</html>
